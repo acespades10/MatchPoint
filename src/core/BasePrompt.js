@@ -1,26 +1,16 @@
 // ─── OJT Scout — BasePrompt (abstract) ───────────────────────────
-// Abstraction pillar: contract for every GPT prompt handler.
+// Abstraction pillar: contract for every provider-backed prompt handler.
 // Concrete prompts (ResumeParserPrompt, BatchRelevancePrompt, …) extend this.
 //
 // Rules enforced here:
 //   - All prompt STRINGS live in constants/prompts.js — subclasses only
 //     reference them via buildSystemPrompt(); none are defined here.
-//   - Every OpenAI call goes through safeAPICall().
-//   - The OpenAI client is created lazily so the server (and /api/health)
-//     can start without an API key present.
+//   - Every provider call goes through safeAPICall().
+//   - Connection settings are resolved at request time so the server and
+//     no-key demo can start without a provider credential.
 
 import { safeAPICall } from '../utils/safeAPICall.js'
-
-let _client = null
-async function getClient() {
-  if (_client) return _client
-  const { default: OpenAI } = await import('openai')
-  _client = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-    organization: process.env.OPENAI_ORG_ID || undefined
-  })
-  return _client
-}
+import { getConnection, getDefaultConnection, providerResponse, DEFAULT_MODEL } from './AIConnection.js'
 
 export class BasePrompt {
   // Defaults — override per subclass.
@@ -28,7 +18,7 @@ export class BasePrompt {
     return 0
   }
   get model() {
-    return 'gpt-4o'
+    return DEFAULT_MODEL
   }
 
   // Subclasses MUST implement.
@@ -42,20 +32,13 @@ export class BasePrompt {
     throw new Error('Subclass must implement parseResponse(raw)')
   }
 
-  // Shared execution — one place that talks to OpenAI for all prompts.
+  // Shared execution — protocol adapters return text for each prompt parser.
   async run(input, fallback = null) {
     return safeAPICall(async () => {
-      const client = await getClient()
-      const response = await client.chat.completions.create({
-        model: this.model,
-        temperature: this.temperature,
-        response_format: { type: 'json_object' },
-        messages: [
-          { role: 'system', content: this.buildSystemPrompt() },
-          { role: 'user', content: this.buildUserPrompt(input) }
-        ]
-      })
-      return this.parseResponse(response.choices[0].message.content)
+      const connection = getConnection() || getDefaultConnection()
+      if (!connection) throw new Error('No AI connection configured.')
+      const raw = await providerResponse(connection, this.buildSystemPrompt(), this.buildUserPrompt(input))
+      return this.parseResponse(raw)
     }, fallback)
   }
 }

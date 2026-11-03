@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { BilateralScorer } from '../../src/scorers/BilateralScorer.js'
 
 const student = {
+  course: 'BS Computer Science',
   skills: [{ skill: 'JavaScript' }],
   preferences: { setup: 'hybrid', minAllowance: 500, homeLocation: 'Quezon City' }
 }

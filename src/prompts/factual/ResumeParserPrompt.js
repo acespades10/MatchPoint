@@ -24,7 +24,10 @@ export class ResumeParserPrompt extends BasePrompt {
   parseResponse(raw) {
     let parsed
     try {
-      parsed = typeof raw === 'string' ? JSON.parse(raw) : raw
+      // Some providers wrap requested JSON in a single Markdown code fence.
+      const text = typeof raw === 'string' ? raw.trim().replace(/^```(?:json)?\s*\n([\s\S]*?)\n```$/i, '$1') : raw
+      parsed = typeof text === 'string' ? JSON.parse(text) : text
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('Expected a JSON object')
     } catch {
       // Anti-crash: never throw on malformed JSON — return a minimal LOW profile.
       return {

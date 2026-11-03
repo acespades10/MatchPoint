@@ -19,6 +19,8 @@ import { LocationFitScorer } from './student-side/LocationFitScorer.js'
 import { SetupFitScorer } from './student-side/SetupFitScorer.js'
 import { LearnabilityScorer } from './company-side/LearnabilityScorer.js'
 import { ActiveInternScorer } from './company-side/ActiveInternScorer.js'
+import { companyContacts } from '../data/companyContacts.js'
+import { assessIndustryFit, RELEVANT_TIERS, INDUSTRY_TIER_RANK } from '../../constants/COURSE_MAP.js'
 
 const STUDENT_WEIGHT = 0.6
 const COMPANY_WEIGHT = 0.4
@@ -73,11 +75,13 @@ export class BilateralScorer {
       id: company.id,
       name: company.name,
       industry: company.industry,
+      industryFit: assessIndustryFit(student, company),
       city: company.city,
       setup: company.setup,
       allowance: company.allowance,
       allowanceDisplay: company.allowanceDisplay,
       hasActiveInterns: Boolean(company.hasActiveInterns),
+      contacts: companyContacts(company),
       bilateral,
       studentScore: Math.round(studentScore),
       companyScore: Math.round(companyScore),
@@ -94,14 +98,19 @@ export class BilateralScorer {
     }
   }
 
-  // Score every company, sort by bilateral score desc, return top 20.
+  // Screen again so initial scoring and preference re-ranking share the gate.
+  // Direct industries first, active partners first within each industry tier,
+  // then bilateral score. Unrelated/unknown records cannot enter via fallback.
   // Drops tier === 'LOW' UNLESS fewer than 5 results would remain — we never
-  // hand back an empty list when companies exist.
+  // hand back an empty list when industry-relevant companies exist.
   scoreAll(student, companies) {
     const scored = (companies ?? [])
       .filter(Boolean)
       .map(c => this.scoreOne(student, c))
-      .sort((a, b) => b.bilateral - a.bilateral)
+      .filter(c => RELEVANT_TIERS.includes(c.industryFit.tier))
+      .sort((a, b) => INDUSTRY_TIER_RANK[a.industryFit.tier] - INDUSTRY_TIER_RANK[b.industryFit.tier]
+        || Number(b.hasActiveInterns) - Number(a.hasActiveInterns)
+        || b.bilateral - a.bilateral)
 
     const ranked = scored.filter(c => c.tier !== 'LOW')
     const result = ranked.length >= 5 ? ranked : scored

@@ -18,7 +18,7 @@
 import { BasePhase } from '../BasePhase.js'
 import { CompanyIndex } from '../../data/CompanyIndex.js'
 import { NoMatchHandler } from '../NoMatchHandler.js'
-import { classifyIndustry, RELEVANT_TIERS } from '../../../constants/COURSE_MAP.js'
+import { assessIndustryFit, resumeFields, RELEVANT_TIERS } from '../../../constants/COURSE_MAP.js'
 
 // Tier ordering for the active-intern-aware sort (lower = higher priority).
 const TIER_RANK = { direct: 0, adjacent: 1, stretch: 2, irrelevant: 3 }
@@ -32,7 +32,7 @@ export class Phase3_Relevance extends BasePhase {
     logger?.startPhase(this.name)
 
     const profile = session.getProfile()
-    const course = profile?.course || 'BS Computer Science'
+    const fields = resumeFields(profile ?? {})
 
     const index = CompanyIndex.getInstance()
     const inputIds = session.getFilteredIds()
@@ -40,11 +40,12 @@ export class Phase3_Relevance extends BasePhase {
     const totalIn = companies.length
 
     // STEP 1 — classify into relevance tiers (pure keyword matching)
-    const tierCounts = { direct: 0, adjacent: 0, stretch: 0, irrelevant: 0 }
+    const tierCounts = { direct: 0, adjacent: 0, stretch: 0, irrelevant: 0, unknown: 0 }
     const classified = companies.map(company => {
-      const tier = classifyIndustry(company.industry, course)
+      const fit = assessIndustryFit(profile, company, fields)
+      const { tier } = fit
       tierCounts[tier] += 1
-      return { company, tier }
+      return { company, tier, fit }
     })
 
     // STEP 2 — keep only relevant tiers (direct + adjacent)
@@ -68,9 +69,11 @@ export class Phase3_Relevance extends BasePhase {
     const report = {
       totalIn,
       totalOut: relevantIds.length,
+      resumeFields: fields,
+      needsVerification: classified.filter(c => c.tier === 'unknown').map(c => ({ id: c.company.id, name: c.company.name, reason: c.fit.reason, industryLabels: c.fit.industryLabels })),
       tierCounts,
       kept: { direct: tierCounts.direct, adjacent: tierCounts.adjacent },
-      dropped: { stretch: tierCounts.stretch, irrelevant: tierCounts.irrelevant },
+      dropped: { stretch: tierCounts.stretch, irrelevant: tierCounts.irrelevant, unknown: tierCounts.unknown },
       noMatch: null
     }
 
@@ -81,7 +84,7 @@ export class Phase3_Relevance extends BasePhase {
         .map(c => c.company.id)
       report.noMatch = {
         level: 2,
-        reason: 'No directly relevant companies for this course.',
+        reason: fields.length ? 'No companies with a supported industry fit for this résumé.' : 'Could not identify a supported field. Include your course or specific skills and experience in the résumé.',
         stretchAvailable: stretchIds.length,
         relaxations: new NoMatchHandler(companies, profile).level1?.() ?? []
       }

@@ -30,7 +30,8 @@ export class Phase4_Scoring extends BasePhase {
     const profile = session.getProfile()
     const index = CompanyIndex.getInstance()
     const ids = session.getFilteredIds()
-    const companies = ids.map(id => index.getById(id)).filter(Boolean)
+    let companies = ids.map(id => index.getById(id)).filter(Boolean)
+    if (session.getInput().activeOnly) companies = companies.filter(company => company.hasActiveInterns)
     const totalIn = companies.length
 
     const ranked = this.#scorer.scoreAll(profile, companies)

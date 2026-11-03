@@ -9,17 +9,17 @@ import { classifyIndustry } from '../../constants/COURSE_MAP.js'
 const profile = { course: 'BS Computer Science', skills: [] }
 
 test('classifyIndustry: keyword tiers for CS/IT', () => {
-  assert.equal(classifyIndustry('Software & Computer Services'), 'direct')
-  assert.equal(classifyIndustry('IT Company'), 'direct')
-  assert.equal(classifyIndustry('Banks/Financial Services'), 'adjacent')
-  assert.equal(classifyIndustry('Manufacturing'), 'stretch')
-  assert.equal(classifyIndustry('Construction and Materials'), 'irrelevant')
-  assert.equal(classifyIndustry('Physical Therapy'), 'irrelevant')
+  assert.equal(classifyIndustry('Software & Computer Services', 'BS Computer Science'), 'direct')
+  assert.equal(classifyIndustry('IT Company', 'BS Computer Science'), 'direct')
+  assert.equal(classifyIndustry('Banks/Financial Services', 'BS Computer Science'), 'adjacent')
+  assert.equal(classifyIndustry('Manufacturing', 'BS Computer Science'), 'stretch')
+  assert.equal(classifyIndustry('Construction and Materials', 'BS Computer Science'), 'irrelevant')
+  assert.equal(classifyIndustry('Physical Therapy', 'BS Computer Science'), 'irrelevant')
 })
 
 test('classifyIndustry: " it " behaves like a word boundary', () => {
-  assert.equal(classifyIndustry('IT Services'), 'direct')
-  assert.equal(classifyIndustry('Credit Cooperative'), 'irrelevant') // not "IT"
+  assert.equal(classifyIndustry('IT Services', 'BS Computer Science'), 'direct')
+  assert.equal(classifyIndustry('Credit Cooperative', 'BS Computer Science'), 'irrelevant') // not "IT"
 })
 
 test('Phase3: keeps direct + adjacent, drops stretch + irrelevant, 0 tokens', async () => {

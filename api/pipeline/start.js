@@ -15,6 +15,7 @@ import { Pipeline } from '../../src/pipeline/Pipeline.js'
 import { SessionStore } from '../../src/pipeline/SessionStore.js'
 import { OJTScoutError } from '../../src/errors/OJTScoutError.js'
 import { MOCK_STUDENT_PROFILE } from '../../constants/mockProfile.js'
+import { parseConnection, withConnection, getDefaultConnection } from '../../src/core/AIConnection.js'
 
 const router = Router()
 
@@ -51,7 +52,7 @@ router.post('/start', (req, res, next) => {
 
   // ─── Mock path — no upload, no PDF parse, no GPT call ───────────
   if (isMock) {
-    runMock(res).catch(next)
+    runMock(req, res).catch(next)
     return
   }
 
@@ -76,11 +77,16 @@ router.post('/start', (req, res, next) => {
         }
       }
 
+      const connection = parseConnection(req.body?.connection) || getDefaultConnection()
+      if (!connection) {
+        throw new OJTScoutError('MISSING_CONNECTION', 'Choose your AI provider and enter its API key and model before matching.')
+      }
       const pipeline = new Pipeline()
-      const { session, logSummary } = await pipeline.run({
+      const { session, logSummary } = await withConnection(connection, () => pipeline.run({
         resumeBuffer: req.file.buffer,
-        rawPreferences
-      })
+        rawPreferences,
+        activeOnly: req.body?.activeOnly === 'true'
+      }))
       SessionStore.getInstance().save(session)
 
       return res.status(200).json(buildResponse(session, logSummary))
@@ -97,13 +103,17 @@ router.post('/start', (req, res, next) => {
 // Run the pipeline against a pre-built profile. Phase 1 is skipped via the
 // `mockProfile` input; Phase 2+ run normally so the UI exercises the real
 // pre-screen path.
-async function runMock(res) {
+async function runMock(req, res) {
   try {
     // Fresh copy each request — never hand out the shared constant.
     const profile = structuredClone(MOCK_STUDENT_PROFILE)
+    const preferences = req.body?.preferences
+    if (preferences && typeof preferences === 'object' && !Array.isArray(preferences)) {
+      profile.preferences = { ...profile.preferences, ...preferences }
+    }
 
     const pipeline = new Pipeline()
-    const { session, logSummary } = await pipeline.run({ mock: true, mockProfile: profile })
+    const { session, logSummary } = await pipeline.run({ mock: true, mockProfile: profile, activeOnly: req.body?.activeOnly === true })
     SessionStore.getInstance().save(session)
 
     return res.status(200).json(buildResponse(session, logSummary))

@@ -13,6 +13,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import * as XLSX from 'xlsx'
 import { parse as parseCsv } from 'csv-parse/sync'
+import { collectIndustrySources, attachIndustrySources } from '../src/data/industrySources.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const OUTPUT_PATH = path.resolve(__dirname, '../data/companies.json')
@@ -187,6 +188,7 @@ function main() {
   let rows // Sheet 0 — full company list (GENERAL MASTERLIST)
   let activeRows = [] // raw Sheet 1 rows (active partners)
   let activeNames = new Set() // normalized names from Sheet 1
+  let sourceSheets = []
 
   if (ext === '.csv') {
     // CSV has a single sheet — no separate active list available.
@@ -197,6 +199,7 @@ function main() {
     const workbook = XLSX.read(readFileSync(inputPath), { type: 'buffer' })
     rows = readWorkbookSheet(workbook, 0) // Sheet 0: full masterlist
     activeRows = readWorkbookSheet(workbook, 1) // Sheet 1: active partners
+    sourceSheets = [{ name: workbook.SheetNames[0], rows }, { name: workbook.SheetNames[1], rows: activeRows }]
     if (activeRows.length) {
       activeNames = buildActiveNameSet(activeRows)
     } else {
@@ -299,6 +302,7 @@ function main() {
   })
 
   const activeCount = companies.filter(c => c.hasActiveInterns).length
+  attachIndustrySources(companies, collectIndustrySources(sourceSheets))
 
   writeFileSync(OUTPUT_PATH, JSON.stringify(companies, null, 2) + '\n', 'utf-8')
 

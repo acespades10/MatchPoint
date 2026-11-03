@@ -53,7 +53,11 @@ npm run dev
 
 On PowerShell, copy the example with `Copy-Item .env.example .env`; on macOS/Linux, use `cp .env.example .env`.
 
-The current connection layer supports OpenAI-compatible Chat Completions and Codex gateway Responses endpoints. The configured model must be available from the selected provider; inspect `src/core/AIConnection.js` and `src/core/BasePrompt.js` when changing that integration.
+Choose a provider in **AI connection**, enter its API key and exact **Model ID**, and verify the prefilled API base URL. Presets include OpenAI, Anthropic (Claude), Google Gemini, OpenRouter, Groq, DeepSeek, Mistral, xAI (Grok), and Codex-compatible gateways. Changing providers clears the key field to avoid sending an old key to a different service.
+
+**Other provider / custom endpoint** lets you choose Chat Completions, Responses, Anthropic Messages, or Gemini format and supply your own URL. Any provider implementing one of these formats can be configured; arbitrary service keys, unsupported authentication schemes, and incompatible APIs are not interchangeable. The key must have access to the chosen text-generation model. There is no fixed model requirement in the form.
+
+For server-side configuration, set `AI_PROVIDER`, `AI_API_KEY`, and `AI_MODEL`; optionally set `AI_BASE_URL` and, for custom endpoints, `AI_API_TYPE`. The original `OPENAI_API_KEY` configuration remains supported. Older saved Codex connections retain their original model; older non-Codex saves without a model ask you to supply one. Inspect `public/ai-providers.js` for presets and `src/core/AIConnection.js` for the request adapters.
 
 Résumé text is sent to the configured AI provider. The current UI's **Save** action stores the connection URL and API key in browser local storage; **Clear** removes the saved connection. Use a trusted local environment. The public project guide has no credential or upload fields.
 
@@ -65,6 +69,11 @@ Résumé text is sent to the configured AI provider. The current UI's **Save** a
 | `COMPANIES_DATA_PATH` | Local company JSON file | `./data/companies.json` |
 | `OPENAI_API_KEY` | Server-side provider credential for real résumé parsing | None |
 | `OPENAI_ORG_ID` | Optional provider organization | None |
+| `AI_PROVIDER` | Provider preset or `custom` for server-side configuration | `openai` |
+| `AI_API_KEY` | Selected provider credential; takes precedence over `OPENAI_API_KEY` | None |
+| `AI_MODEL` | Exact model ID supported by the provider | Required outside the legacy OpenAI default |
+| `AI_BASE_URL` | Override the provider's API base URL | Provider preset |
+| `AI_API_TYPE` | Custom protocol: `chat`, `responses`, `anthropic`, or `gemini` | Provider preset |
 
 Other values in `.env.example` include settings reserved for planned integrations. They are not all consumed by the current four-phase pipeline.
 
