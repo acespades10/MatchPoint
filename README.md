@@ -8,6 +8,12 @@ The project was originally scaffolded as **OJT Scout**, which is still the name 
 
 [Explore the interactive project guide](https://acespades10.github.io/MatchPoint/) · [Architecture](OJT_SCOUT_ARCHITECTURE.md) · [Development log](DEV_LOG.md)
 
+## Project team
+
+- Raynard Vergara
+- Rey Joshua Delos Reyes
+- Alvin Christian Panio
+
 ## What it does
 
 - **Builds a student profile:** extracts text from a PDF résumé and uses a configured AI provider to structure skills, experience, and course information. Skills without supporting evidence default to beginner.
