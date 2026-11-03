@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123e32">
+  <meta name="description" content="Meet MatchPoint: a clearer path from your résumé to your next OJT opportunity. Explore the matching process through a hands-on, fictional demo.">
+  <meta property="og:title" content="MatchPoint — A little direction. A better next step.">
+  <meta property="og:description" content="An interactive guide to résumé-based OJT matching for FEU students.">
+  <meta property="og:type" content="website">
+  <title>MatchPoint — Your next step, with direction</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="MatchPoint home"><img src="./favicon.svg" width="34" height="34" alt="">Match<span>Point</span></a>
+    <nav aria-label="Main navigation"><a href="#why">The idea</a><a href="#walkthrough">Try the walkthrough</a><a href="#under-the-hood">How it works</a></nav>
+    <a class="repo-link" href="https://github.com/acespades10/MatchPoint">View project <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="tiny-dot"></span> BUILT FOR YOUR NEXT CHAPTER</p>
+          <h1 id="hero-title">A little direction.<br>A better <em>next step.</em></h1>
+          <p class="hero-description">Your first opportunity shouldn’t be a shot in the dark. MatchPoint connects your skills and preferences to a more meaningful OJT shortlist.</p>
+          <div class="hero-actions"><a class="button button-gold" href="#walkthrough">See how it feels <span aria-hidden="true">↗</span></a><a class="text-link" href="#why">Meet MatchPoint <span aria-hidden="true">↓</span></a></div>
+          <p class="hero-note">Made for fourth-year FEU students. Built around you.</p>
+        </div>
+        <div class="path-illustration" aria-label="Illustration: a student profile connects through matching to a shortlist">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="path-label">FROM POTENTIAL TO POSSIBILITY</div>
+          <div class="profile-stamp"><span class="avatar">JD</span><div><strong>Your starting point</strong><span>Skills. Ambitions. You.</span></div><span class="small-spark">✦</span></div>
+          <div class="route-line"><span></span><span></span><span></span></div>
+          <div class="match-stamp"><img src="./favicon.svg" width="36" height="36" alt=""><span>A match with meaning</span><span aria-hidden="true">↗</span></div>
+          <div class="opportunity-stamp"><div class="card-topline"><span class="mini-label">YOUR NEXT CHAPTER</span><span class="fit-tag">Aligned with you</span></div><strong>Room to learn.<br>Space to grow.</strong><div class="sample-tags"><span>Your field</span><span>Your setup</span><span>Your goals</span></div></div>
+          <span class="illustration-note">A clearer path forward.</span>
+        </div>
+      </div>
+      <div class="hero-bottom"><span>RÉSUMÉ → RELEVANCE → OPPORTUNITY</span><span>Explore the project <span aria-hidden="true">↓</span></span></div>
+    </section>
+
+    <section id="why" class="section why-section" aria-labelledby="why-title">
+      <div><p class="eyebrow">01 / THE IDEA</p><h2 id="why-title">Less searching.<br><em>More understanding.</em></h2></div>
+      <div class="why-copy"><p class="lead">A long company list tells you who’s out there. It doesn’t tell you where you fit.</p><p>MatchPoint starts with your résumé, checks the practical requirements, and surfaces relevant industry partners. Every shortlist comes with a reason, so you can decide what deserves your next application.</p></div>
+      <div class="principles"><article><span class="principle-number">01</span><h3>Start with the student</h3><p>Your course, skills, location, and work preferences shape the search.</p></article><article><span class="principle-number">02</span><h3>Make the fit visible</h3><p>Understand the signals behind a match instead of relying on a single unexplained score.</p></article><article><span class="principle-number">03</span><h3>Keep the choice yours</h3><p>Explore trade-offs, adjust your priorities, and decide where to go next.</p></article></div>
+    </section>
+
+    <section id="walkthrough" class="walkthrough-section" aria-labelledby="walkthrough-title">
+      <div class="section section-heading"><div><p class="eyebrow">02 / TAKE IT FOR A SPIN</p><h2 id="walkthrough-title">Meet your next <em>possibility.</em></h2></div><p>Follow a sample student from résumé to shortlist.<br>No uploads. No account. Just a little exploring.</p></div>
+      <noscript><p class="noscript">Enable JavaScript to use the interactive walkthrough. The project explanation and technical details below remain available.</p></noscript>
+      <div class="demo-shell">
+        <aside class="demo-sidebar">
+          <div class="demo-label"><span class="tiny-dot"></span> INTERACTIVE WALKTHROUGH</div>
+          <div class="steps" role="group" aria-label="Walkthrough steps">
+            <button class="step active" data-step="0" aria-label="Step 1: Your starting point" aria-current="step"><span>01</span><span><strong>Your starting point</strong><small>A résumé becomes a profile</small></span></button>
+            <button class="step" data-step="1" aria-label="Step 2: Find the right field"><span>02</span><span><strong>Find the right field</strong><small>Eligibility, then relevance</small></span></button>
+            <button class="step" data-step="2" aria-label="Step 3: See both sides"><span>03</span><span><strong>See both sides</strong><small>A shortlist with reasons</small></span></button>
+            <button class="step" data-step="3" aria-label="Step 4: Make it yours"><span>04</span><span><strong>Make it yours</strong><small>Explore the trade-offs</small></span></button>
+          </div>
+          <div class="sidebar-note"><span aria-hidden="true">✳</span><p>A guided illustration, using fictional people and companies.</p></div>
+          <button id="reset-demo" class="reset-button" type="button">↺ Start over</button>
+        </aside>
+        <div class="demo-main">
+          <div class="demo-toolbar"><span>THE MATCHPOINT EXPERIENCE</span><span id="step-counter">01 / 04</span></div>
+          <div id="demo-content" aria-live="polite" aria-atomic="false"></div>
+          <div class="demo-footer"><button id="previous-step" class="button button-subtle" type="button" disabled>← Back</button><p id="step-hint">Start with a sample, see the possibilities.</p><button id="next-step" class="button button-green" type="button">Build the profile →</button></div>
+        </div>
+      </div>
+      <p class="demo-disclaimer">Illustrative demo. All student details, companies, and scores are fictional. A simplified local calculation demonstrates the idea; no AI or backend requests run here.</p>
+    </section>
+
+    <section id="under-the-hood" class="section technical-section" aria-labelledby="technical-title">
+      <div class="technical-intro"><p class="eyebrow">03 / UNDER THE HOOD</p><h2 id="technical-title">Thoughtful matching.<br><em>Transparent logic.</em></h2><p>AI helps structure the résumé. The matching stages use local rules and arithmetic, making the results easier to inspect and re-rank.</p><a class="inline-link" href="https://github.com/acespades10/MatchPoint#how-matching-works">Read the technical guide <span aria-hidden="true">↗</span></a></div>
+      <div class="architecture-list"><article><span>01</span><div><h3>Read the résumé</h3><p>Extract PDF text, then structure a student profile through the configured AI provider. Skills without evidence default to beginner.</p></div><span class="tech-tag">AI-assisted</span></article><article><span>02</span><div><h3>Check the essentials</h3><p>Apply six eligibility filters: year level, MOA, slots, course, allowance, and work setup.</p></div><span class="tech-tag">Local rules</span></article><article><span>03</span><div><h3>Find industry relevance</h3><p>Keep direct and adjacent industry matches. Unknown classifications need verification.</p></div><span class="tech-tag">Local rules</span></article><article><span>04</span><div><h3>Score, explain, refine</h3><p>Combine 60% student fit with 40% company-side signals. Re-score the existing pool when preferences change.</p></div><span class="tech-tag">Zero AI calls</span></article></div>
+      <div class="formula-note"><span class="formula">60% <small>student fit</small> <b>+</b> 40% <small>company-side fit</small></span><p>A fit score is a guide, not a hiring probability. Industry relevance and active-partner status also affect the order of results.</p></div>
+    </section>
+
+    <section class="scope-section"><div class="section scope-grid"><div><p class="eyebrow">04 / WHERE WE ARE</p><h2>A working foundation.<br><em>A bigger possibility.</em></h2><p>MatchPoint is a matching prototype. Here’s what is in the application today, and what comes next.</p></div><div class="scope-card"><span class="scope-label">IN THE CURRENT BUILD</span><h3>From résumé to shortlist</h3><ul><li>PDF intake and sample-profile mode</li><li>Eligibility and industry checks</li><li>Bilateral scores and explanations</li><li>Preference-based re-ranking</li></ul></div><div class="scope-card future"><span class="scope-label">ON THE HORIZON</span><h3>Beyond the match</h3><ul><li>Broader company-data enrichment</li><li>Application document generation</li><li>Application checklists</li><li>Progress and application tracking</li></ul><p>Planned features; not available in this build.</p></div></div></section>
+
+    <section class="section faq-section" aria-labelledby="faq-title"><div><p class="eyebrow">A FEW GOOD QUESTIONS</p><h2 id="faq-title">Before your <em>next step.</em></h2></div><div class="faq-list"><details><summary>Is this the actual matching application?</summary><p>This page is an interactive project guide hosted on GitHub Pages. The actual app runs on Node.js and Express. Clone the repository, run <code>npm ci</code> and <code>npm start</code>, then open <code>http://localhost:3000</code>. The local app has a no-key sample-profile mode.</p></details><details><summary>What happens to a real résumé?</summary><p>In the actual app, PDF text is extracted on the server and sent to your configured AI provider to create a profile. Sessions are held in memory. Saving an AI connection in the current app stores its URL and key in browser local storage. This guide collects neither résumés nor credentials.</p></details><details><summary>Does a high score guarantee an internship?</summary><p>No. Scores are heuristic estimates of fit, not hiring probabilities or employer decisions. Company-side signals use learnability and recorded active-intern status. Confirm current openings, requirements, and terms with the company and institution.</p></details><details><summary>Why might a higher score appear lower down?</summary><p>The actual app prioritizes direct industry matches, then adjacent ones. Within each tier, partners with active interns come first, followed by bilateral score. A score alone doesn’t determine the final order.</p></details><details><summary>Do preference changes search all companies again?</summary><p>No. Re-ranking uses the relevant pool from the initial run. Changing preferences does not restore companies that were eliminated during initial screening. Start a new run to reconsider the full dataset.</p></details></div></section>
+    <section class="closing"><p class="eyebrow">YOUR CAREER, WITH DIRECTION</p><h2>The next chapter<br>starts with <em>a better match.</em></h2><a class="button button-gold" href="#walkthrough">Explore MatchPoint <span aria-hidden="true">↗</span></a><a class="text-link" href="https://github.com/acespades10/MatchPoint">View the source <span aria-hidden="true">↗</span></a></section>
+  </main>
+  <footer class="site-footer"><a class="brand" href="#"><img src="./favicon.svg" width="28" height="28" alt="">Match<span>Point</span></a><p>An OJT matching project for FEU students.</p><span>Built for your next step. ↗</span></footer>
+</body>
+</html>
