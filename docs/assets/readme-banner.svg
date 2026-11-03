@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title description">
+  <title id="title">MatchPoint — A little direction. A better next step.</title>
+  <desc id="description">The MatchPoint arrow-and-dot logo and wordmark on forest green, with cream lettering, gold accents, and a path from profile to opportunity.</desc>
+  <defs>
+    <clipPath id="corners"><rect width="1200" height="360" rx="22"/></clipPath>
+  </defs>
+  <g clip-path="url(#corners)">
+    <rect width="1200" height="360" fill="#123e32"/>
+    <circle cx="1090" cy="185" r="265" fill="#0c2e26"/>
+    <circle cx="1090" cy="185" r="212" fill="none" stroke="#31594a"/>
+    <circle cx="1090" cy="185" r="150" fill="none" stroke="#31594a"/>
+    <path d="M825 288 1080 64" fill="none" stroke="#e4bf78" stroke-width="2" stroke-dasharray="5 9" opacity=".55"/>
+    <rect x="62" y="52" width="72" height="72" rx="20" fill="#0c2e26" stroke="#51715e"/>
+    <!-- Reuse the existing docs/favicon.svg logo geometry at 1.5x. -->
+    <g transform="translate(62 52) scale(1.5)">
+      <path d="M13 35 34 14M17 14h17v17" fill="none" stroke="#f8f5e9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="13" cy="35" r="5" fill="#e4bf78"/>
+    </g>
+    <text x="155" y="101" font-family="Segoe UI, Arial, sans-serif" font-size="46" font-weight="700" letter-spacing="-1.6" fill="#fffefa">Match<tspan fill="#e4bf78">Point</tspan></text>
+    <text x="65" y="177" font-family="Segoe UI, Arial, sans-serif" font-size="12" letter-spacing="3" fill="#b9cebd">BUILT FOR YOUR NEXT CHAPTER</text>
+    <text x="62" y="232" font-family="Georgia, 'Times New Roman', serif" font-size="43" fill="#f7f5ed">A little direction. A better <tspan font-style="italic" fill="#e4bf78">next step.</tspan></text>
+    <text x="65" y="274" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#c3d2c6">Résumé-based OJT matching for fourth-year FEU students.</text>
+    <path d="M65 309H756" stroke="#51715e"/>
+    <text x="65" y="336" font-family="Segoe UI, Arial, sans-serif" font-size="10" letter-spacing="2.2" fill="#b9cebd">YOUR SKILLS. YOUR PREFERENCES. YOUR NEXT OPPORTUNITY.</text>
+    <rect x="867" y="79" width="253" height="61" rx="12" fill="#f7f5ed"/>
+    <circle cx="896" cy="109" r="12" fill="#e8eee5"/>
+    <text x="890" y="114" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700" fill="#123e32">1</text>
+    <text x="920" y="115" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#203c32">Your profile</text>
+    <rect x="842" y="158" width="253" height="61" rx="12" fill="#e8eee5"/>
+    <circle cx="871" cy="188" r="12" fill="#123e32"/>
+    <text x="865" y="193" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700" fill="#fffefa">2</text>
+    <text x="895" y="194" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#203c32">A meaningful match</text>
+    <rect x="817" y="237" width="253" height="61" rx="12" fill="#e4bf78"/>
+    <circle cx="846" cy="267" r="12" fill="#123e32"/>
+    <text x="840" y="272" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700" fill="#fffefa">3</text>
+    <text x="870" y="273" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#203c32">Your next opportunity</text>
+  </g>
+</svg>

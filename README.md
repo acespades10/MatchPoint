@@ -1,20 +1,45 @@
-# MatchPoint
+<p align="center">
+  <img src="docs/assets/readme-banner.svg" width="100%" alt="MatchPoint — A little direction. A better next step. Forest-green and gold banner with the MatchPoint arrow-and-dot logo." />
+</p>
 
-**Find your next opportunity, with a shortlist you can understand.**
+<h1 align="center">MatchPoint</h1>
+
+<p align="center"><strong>Find your next opportunity, with a shortlist you can understand.</strong></p>
+
+<p align="center">
+  <a href="https://github.com/acespades10/MatchPoint/releases/tag/v0.1.0"><img src="https://img.shields.io/badge/release-v0.1.0-e4bf78?style=for-the-badge&amp;labelColor=123e32" alt="Release v0.1.0" /></a>
+  <img src="https://img.shields.io/badge/status-prototype-e8eee5?style=for-the-badge&amp;labelColor=123e32" alt="Status: prototype" />
+  <img src="https://img.shields.io/badge/Node.js-22%2B_recommended-286747?style=for-the-badge&amp;labelColor=123e32" alt="Node.js 22 or newer recommended" />
+  <img src="https://img.shields.io/badge/made_for-FEU_students-e4bf78?style=for-the-badge&amp;labelColor=123e32" alt="Made for FEU students" />
+</p>
+
+<p align="center">
+  <a href="https://acespades10.github.io/MatchPoint/"><strong>Explore the project guide ↗</strong></a> ·
+  <a href="#-run-locally">Quick start</a> ·
+  <a href="https://github.com/acespades10/MatchPoint/releases">Releases</a> ·
+  <a href="OJT_SCOUT_ARCHITECTURE.md">Architecture</a> ·
+  <a href="DEV_LOG.md">Development log</a>
+</p>
+
+---
+
+## 🌿 Meet MatchPoint
 
 MatchPoint is an OJT (on-the-job training) matching prototype for fourth-year FEU students. It turns a résumé and work preferences into a ranked shortlist of industry partners, with a breakdown of how each match was scored.
 
 The project was originally scaffolded as **OJT Scout**, which is still the name used in the package metadata and several source files. The current interface is branded MatchPoint.
 
-[Explore the interactive project guide](https://acespades10.github.io/MatchPoint/) · [Architecture](OJT_SCOUT_ARCHITECTURE.md) · [Development log](DEV_LOG.md)
+| 📄 Start with you | 🎯 Understand your fit | ✨ Refine your next step |
+| --- | --- | --- |
+| Turn your résumé into a profile of skills, experience, and course information. | See relevant industry partners and the signals behind each match. | Adjust your preferences and compare a refreshed shortlist. |
 
-## Project team
+## 🤝 Project team
 
 - Raynard Vergara
 - Rey Joshua Delos Reyes
 - Alvin Christian Panio
 
-## What it does
+## ✨ What it does
 
 - **Builds a student profile:** extracts text from a PDF résumé and uses a configured AI provider to structure skills, experience, and course information. Skills without supporting evidence default to beginner.
 - **Checks eligibility first:** applies year-level, MOA status, available-slot, accepted-course, allowance, and work-setup filters.
@@ -25,7 +50,7 @@ The project was originally scaffolded as **OJT Scout**, which is still the name 
 
 The GitHub Pages site is a separate, interactive explanation with fictional data. It does not upload résumés, ask for API keys, contact AI services, or run the Express backend.
 
-## Run locally
+## 🚀 Run locally
 
 Use a supported Node.js LTS release (Node 22 or newer recommended; the package declares a minimum of Node 18) and npm.
 
@@ -77,7 +102,7 @@ Résumé text is sent to the configured AI provider. The current UI's **Save** a
 
 Other values in `.env.example` include settings reserved for planned integrations. They are not all consumed by the current four-phase pipeline.
 
-## How matching works
+## 🧭 How matching works
 
 ```mermaid
 flowchart LR
@@ -88,6 +113,13 @@ flowchart LR
     E --> F[4. Bilateral scoring]
     F --> G[Up to 20 matches]
     H[Updated preferences] --> F
+
+    classDef input fill:#f7f5ed,stroke:#66736b,color:#203c32
+    classDef process fill:#123e32,stroke:#286747,color:#fffefa
+    classDef result fill:#e4bf78,stroke:#8a6107,color:#203c32
+    class A,D,H input
+    class B,C,E,F process
+    class G result
 ```
 
 Only real résumé intake calls an AI provider. Eligibility checks, industry relevance, scoring, and re-ranking use local rules and arithmetic.
@@ -107,16 +139,16 @@ Company-side fit is a heuristic based on available data, not an employer assessm
 
 | Tier | Score |
 | --- | --- |
-| Ideal | 75–100 |
-| Good | 60–74 |
-| Reach | 45–59 |
-| Low | Below 45 |
+| 🟢 Ideal | 75–100 |
+| 🔵 Good | 60–74 |
+| 🟡 Reach | 45–59 |
+| ⚪ Low | Below 45 |
 
 The current scorer orders direct industries before adjacent industries, then active-intern partners before other partners within each industry tier, then bilateral score. It returns up to 20 companies. Low-scoring entries are normally omitted, but can remain when fewer than five non-low results are available.
 
 Initial preferences participate in eligibility screening. Later preference changes only re-score the pool that survived that run; they do not bring back companies eliminated earlier. Start a new run to reconsider the full dataset.
 
-## API
+## 🔌 API
 
 | Method | Route | Purpose |
 | --- | --- | --- |
@@ -129,7 +161,7 @@ Initial preferences participate in eligibility screening. Later preference chang
 
 Sessions live in process memory, with a cap of 200 entries. They disappear on restart or eviction. This is a prototype, without production authentication or persistent student accounts.
 
-## Repository layout
+## 🗂️ Repository layout
 
 ```text
 api/pipeline/       Express matching and result routes
@@ -163,7 +195,7 @@ npm test
 
 Tests use Node's built-in test runner and cover filters, relevance, scoring, preferences, and connection handling. No live provider request is needed for the unit tests.
 
-## GitHub Pages
+## 🌐 GitHub Pages
 
 The project guide lives entirely in `docs/`, with relative asset URLs so it works at `/MatchPoint/`. It is plain HTML, CSS, and JavaScript with no build dependencies or external assets.
 
@@ -171,7 +203,13 @@ To preview, open `docs/index.html` in a browser, or serve `docs/` with any stati
 
 For deployment, select **Settings → Pages → Deploy from a branch → main → /docs** in GitHub. GitHub publishes only the guide; the actual matching app still needs a Node.js server. GitHub Pages availability for a private repository depends on the account plan. Do not change repository visibility just to enable Pages without considering the contents of the repository.
 
-## Current scope and next steps
+## 📦 Releases
+
+**[v0.1.0 — First prototype release](https://github.com/acespades10/MatchPoint/releases/tag/v0.1.0)** packages the résumé-to-shortlist workflow, configurable AI connections, a no-key sample-profile mode, and the interactive project guide.
+
+Read the [changelog](CHANGELOG.md) for release highlights and current limitations. GitHub provides source ZIP and tar.gz downloads on each release; run the application locally using the steps above.
+
+## 🌱 Current scope and next steps
 
 **Implemented:** PDF intake, sample-profile mode, eligibility filtering, industry relevance, bilateral ranking, score explanations, and preference re-ranking.
 
